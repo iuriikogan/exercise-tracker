@@ -1,15 +1,18 @@
 import React, { Component } from "react";
+import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateExercise extends Component {
   constructor(props) {
     super(props);
-    //bing class methods to this
-    this.handleChange = this.handleChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+
+    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeDescription = this.onChangeDescription.bind(this);
+    this.onChangeDuration = this.onChangeDuration.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-    //initialize state with exercise vars
+
     this.state = {
       username: "",
       description: "",
@@ -18,28 +21,47 @@ export default class CreateExercise extends Component {
       users: []
     };
   }
-  // will be an api call, for now set a default state
+
   componentDidMount() {
+    axios
+      .get("http://localhost:5000/users/")
+      .then(response => {
+        if (response.data.length > 0) {
+          this.setState({
+            users: response.data.map(user => user.username),
+            username: response.data[0].username
+          });
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  onChangeUsername(e) {
     this.setState({
-      users: ["test user"],
-      username: "test user"
+      username: e.target.value
     });
   }
-  // handle most change except datepicker
-  handleChange(event) {
-    const { name, value } = event.target;
+
+  onChangeDescription(e) {
     this.setState({
-      ...this.State,
-      [name]: value
+      description: e.target.value
     });
   }
-  //handle datepicker change
-  handleDateChange(event) {
+
+  onChangeDuration(e) {
     this.setState({
-      date: event
+      duration: e.target.value
     });
   }
-  // on submit handler, needs to be wired up to backend
+
+  onChangeDate(date) {
+    this.setState({
+      date: date
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -52,9 +74,13 @@ export default class CreateExercise extends Component {
 
     console.log(exercise);
 
+    axios
+      .post("http://localhost:5000/exercises/add", exercise)
+      .then(res => console.log(res.data));
+
     window.location = "/";
   }
-  // template and form control
+
   render() {
     return (
       <div>
@@ -66,11 +92,9 @@ export default class CreateExercise extends Component {
               ref="userInput"
               required
               className="form-control"
-              name="username"
               value={this.state.username}
-              onChange={this.handleChange}
+              onChange={this.onChangeUsername}
             >
-              {/*map users array to options tags*/}
               {this.state.users.map(function (user) {
                 return (
                   <option key={user} value={user}>
@@ -86,19 +110,17 @@ export default class CreateExercise extends Component {
               type="text"
               required
               className="form-control"
-              name="description"
               value={this.state.description}
-              onChange={this.handleChange}
+              onChange={this.onChangeDescription}
             />
           </div>
           <div className="form-group">
             <label>Duration (in minutes): </label>
             <input
-              type="text"
+              type="Number"
               className="form-control"
-              name="duration"
               value={this.state.duration}
-              onChange={this.handleChange}
+              onChange={this.onChangeDuration}
             />
           </div>
           <div className="form-group">
@@ -106,7 +128,7 @@ export default class CreateExercise extends Component {
             <div>
               <DatePicker
                 selected={this.state.date}
-                onChange={this.handleDateChange}
+                onChange={this.onChangeDate}
               />
             </div>
           </div>
