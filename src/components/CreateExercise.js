@@ -36,7 +36,7 @@ export default class CreateExercise extends Component {
   }
 
   onChange(e) {
-    const { name, value, date } = e.target;
+    const { name, value } = e.target;
     this.setState({
       [name]: value
     });
