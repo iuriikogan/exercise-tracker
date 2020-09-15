@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Login from "./Login";
 
 export default function Navbar() {
   return (
-    <nav className=" navbar navbar-dark bg-dark navbar-expand-lg">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link to="/" className="navbar-brand">
         Exercise Tracker
       </Link>
-      <div className="navbar-collapse collapse">
-        <ul className="navbar-nav mr-auto">
+      <div className="navbar-collapse">
+        <ul className="navbar-nav ">
           <li className="navbar-item">
             <Link to="/" className="nav-link">
               Exercises
@@ -19,12 +20,15 @@ export default function Navbar() {
               Create Exercise Log
             </Link>
           </li>
-          <li className="navbar-item">
+          {/* <li className="navbar-item">
             <Link to="/user" className="nav-link">
               Create User
             </Link>
-          </li>
+          </li> */}
         </ul>
+        <form className="form-inline my-2 my-lg-0">
+          <Login />
+        </form>
       </div>
     </nav>
   );
