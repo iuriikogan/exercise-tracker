@@ -10,6 +10,19 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       minLength: 3
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    register_date: {
+      type: Date,
+      default: Date.now
     }
   },
   {

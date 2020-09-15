@@ -17,6 +17,7 @@ const port = process.env.PORT || 5000;
 //mongoose establish connection
 
 const uri = process.env.ATLAS_URI;
+
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -37,12 +38,7 @@ const usersRouter = require("./routes/users");
 app.use("/exercises", exercisesRouter);
 app.use("/users", usersRouter);
 
-//error log
-
-app.use(function (err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send(`error: ${err}`).next();
-});
+// listen on port
 
 app.listen(port, () => {
   console.log(`server is up and running on port: ${port}`);
