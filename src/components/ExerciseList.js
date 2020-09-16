@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+
+
 const Exercise = props => (
   <tr>
     <td>{props.exercise.username}</td>
@@ -27,8 +29,6 @@ export default class ExercisesList extends Component {
   constructor(props) {
     super(props);
 
-    this.deleteExercise = this.deleteExercise.bind(this);
-
     this.state = { exercises: [] };
   }
 
@@ -43,7 +43,7 @@ export default class ExercisesList extends Component {
       });
   }
 
-  deleteExercise(id) {
+  deleteExercise = id => {
     axios.delete("http://localhost:5000/exercises/" + id).then(response => {
       console.log(response.data);
     });
@@ -51,9 +51,9 @@ export default class ExercisesList extends Component {
     this.setState({
       exercises: this.state.exercises.filter(el => el._id !== id)
     });
-  }
+  };
 
-  exerciseList() {
+  exerciseList = () => {
     return this.state.exercises.map(currentexercise => {
       return (
         <Exercise
@@ -63,7 +63,7 @@ export default class ExercisesList extends Component {
         />
       );
     });
-  }
+  };
 
   render() {
     return (

@@ -7,8 +7,6 @@ export default class EditExercise extends Component {
   constructor(props) {
     super(props);
 
-    this.onSubmit = this.onSubmit.bind(this);
-
     this.state = {
       username: "",
       description: "",
@@ -61,7 +59,7 @@ export default class EditExercise extends Component {
     });
   };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     const exercise = {
@@ -71,8 +69,6 @@ export default class EditExercise extends Component {
       date: this.state.date
     };
 
-    console.log(exercise);
-
     axios
       .post(
         "http://localhost:5000/exercises/update/" + this.props.match.params.id,
@@ -81,7 +77,7 @@ export default class EditExercise extends Component {
       .then(res => console.log(res.data));
 
     window.location = "/";
-  }
+  };
 
   render() {
     return (
