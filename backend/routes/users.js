@@ -1,8 +1,13 @@
 const router = require("express").Router();
-const User = require("../models/user.model");
+const User = require("../../models/user.model");
 const bcrypt = require("bcryptjs");
+require("dotenv");
+const jwt = require("jsonwebtoken");
 
-// Post User Route
+// @ Route    api/users/
+// @ desc     Register new user
+// @ access   Public
+
 router.route("/").post((req, res) => {
   const { username, email, password } = req.body;
 
@@ -11,10 +16,13 @@ router.route("/").post((req, res) => {
     return res.status(400).json({ msg: "Please enter all fields" });
   }
 
-  // //check for existing user
+  //check if user email exists
 
-  // User.findOne({ email }).then(User => {
-  //   if (User) return res.status(400).json({ msg: "user exists already" });
+  User.findOne({ email }).then(user => {
+    if (user) return res.status(400).json({ msg: "User already exists" });
+  });
+
+  //save newUser class instance
 
   const newUser = new User({
     username,
@@ -27,32 +35,40 @@ router.route("/").post((req, res) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       if (err) throw err;
       newUser.password = hash;
+
+      // save new user
       newUser
         .save()
         .then(user => {
-          res.json({
-            user: {
-              id: user.id,
-              name: user.name,
-              email: user.email
+          jwt.sign(
+            { id: user.id },
+            process.env.JWT_SECRET,
+            { expiresIn: 36000 },
+            (err, token) => {
+              if (err) throw err;
+              res.json({
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  token
+                }
+              });
             }
-          });
+          );
         })
         .catch(err => res.status(500).json("error: " + err));
     });
   });
 });
 
-// //ADD SINGLE USER
-// router.route("/add").post((req, res) => {
-//   //parse user object
-//   const username = req.body.username;
-//   const newUser = new User({ username });
-//   // save newUser object
-//   newUser
-//     .save()
-//     .then(() => res.json("user added"))
-//     .catch(err => res.status(400).json("Error: " + err));
-// });
+//@Route /api/users/
+//@desc  get all users
+//@access PUBLIC
+router.route("/").get((req, res) => {
+  User.find()
+    .then(User => res.json(User))
+    .catch(err => `error: ${err}`);
+});
 
 module.exports = router;
