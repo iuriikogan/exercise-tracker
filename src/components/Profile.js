@@ -2,8 +2,13 @@ import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Profile = () => {
+
+  // take user and isAuthenticated (Boolean) from useAuth hook
+
   const { user, isAuthenticated } = useAuth0();
-  console.log(user);
+
+  // if authenticated display fields
+  
   return (
     isAuthenticated && (
       <div className="container">

@@ -7,9 +7,6 @@ export default class CreateExercise extends Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
-
     this.state = {
       username: "",
       description: "",
@@ -35,19 +32,19 @@ export default class CreateExercise extends Component {
       });
   }
 
-  onChange(e) {
+  onChange = e => {
     const { name, value } = e.target;
     this.setState({
       [name]: value
     });
-  }
+  };
   onChangeDate = e => {
     this.setState({
       date: e
     });
   };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
 
     const exercise = {
@@ -64,7 +61,7 @@ export default class CreateExercise extends Component {
       .then(res => console.log(res.data));
 
     window.location = "/";
-  }
+  };
 
   render() {
     return (
