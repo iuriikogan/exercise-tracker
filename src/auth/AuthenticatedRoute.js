@@ -5,8 +5,9 @@ import { Route } from "react-router-dom";
 const AuthenticatedRoute = ({ component: Component, path, ...rest }) => {
   const { isAuthenticated } = useAuth0();
   return isAuthenticated ? (
-    <Route path={path} component={Component} {...rest} />
+    <Route path={path} render={props => <Component {...props} />} />
   ) : null;
 };
 
 export default AuthenticatedRoute;
+  
