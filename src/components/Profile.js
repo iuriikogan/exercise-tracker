@@ -13,7 +13,12 @@ const Profile = () => {
       <div className="container">
         <h2>{user.name}</h2>
         <p>{user.email}</p>
-        <img src={user.picture} alt={user.name} />
+        <img
+          src={user.picture}
+          alt={user.name}
+          className="img-fluid img-thumbnail"
+          style={{ height: "200px" }}
+        />
       </div>
     )
   );
