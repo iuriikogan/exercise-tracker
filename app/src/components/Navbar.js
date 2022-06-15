@@ -28,7 +28,7 @@ export default function Navbar() {
               Profile
             </Link>
           </li>
-          {!isAuthenticated ? <LoginButton /> : <LogoutButton />}
+          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
         </ul>
       </div>
     </nav>

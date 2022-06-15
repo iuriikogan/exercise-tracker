@@ -15,7 +15,7 @@ export default class CreateExercise extends Component {
       users: []
     };
   }
-
+// on component 
   componentDidMount() {
     axios
       .get("http://localhost:5000/users/")
