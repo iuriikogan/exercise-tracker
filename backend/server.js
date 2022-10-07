@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 
 //mongoose establish connection
 
-const uri = process.env.ATLAS_URI;
+const uri = process.env.MONGO_URI;
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
