@@ -7,13 +7,21 @@ OIDC / Protected Routes / Functional React
 ## Clone repo
 ## create env from sample (you'll need an Auth0 Account)
 
+## Run in Docker
+
+Build each image from dockerfile in /app and /backend
+
+## Run locally in terminal
+
 ### Frontend
-## from root - cd app 
-## npm run build
-## npm serve build -g
+from root --
+cd app
+npm run build
+npm serve -g
 
 ### Apiserver
-## from root - cd backend
-## npm start
+from root 
+cd backend
+npm start
 
-App will be served at localhost/$
+
